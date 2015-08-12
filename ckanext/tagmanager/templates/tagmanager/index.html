@@ -1,13 +1,38 @@
-<h1>Hello World!!!??</h1>
+{% extends "page.html" %}
+{% import 'macros/form.html' as form %}
 
-{% block featured_organization %}
+{% block subtitle %}{{ _("Tags") }}{% endblock %}
 
-  {# Show a list of the site's most popular groups. #}
-  <h3>Most popular groups</h3>
-  <ul>
-    {% for tag in h.tagmanager_list_tags() %}
-      <li>{{ tag }}</li>
-    {% endfor %}
-  </ul>
-
+{% block breadcrumb_content %}
+  <li class="active">{{ h.nav_link(_('Datasets'), controller='package', action='search', highlight_actions = 'new index') }}</li>
 {% endblock %}
+
+{% block primary_content %}
+  <section class="module">
+    <div class="module-content">
+      {% block page_primary_action %}
+        {% if h.check_access('package_create') %}
+          <div class="page_primary_action">
+            {% link_for _('Add Tag'), controller='package', action='new', class_='btn btn-primary', icon='plus-sign-alt' %}
+          </div>
+        {% endif %}
+      {% endblock %}
+    </div>
+
+  </section>
+
+  {% block tag_search_results_api %}
+  <section class="module">
+    <div class="module-content">
+    <ul>
+    {% block tags_list %}
+      {% for tag in h.tagmanager_list_tags() %}
+	{# link_name = tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count + ')' #}
+	<li>{% link_for tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', controller='package', action='search', tags= tag.display_name %}</li>
+      {% endfor %}
+    {% endblock %}	
+    </ul>
+   </div>
+  </section>
+  {% endblock %}
+{% endblock %} <!--primary content -->

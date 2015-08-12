@@ -3,7 +3,10 @@ import ckan.plugins.toolkit as toolkit
 
 
 def list_tags():
-     return plugins.toolkit.get_action('tag_list')({},{})
+    return plugins.toolkit.get_action('tag_list')({},{'all_fields' : True})
+
+def tag_show(id):
+    return plugins.toolkit.get_action('tag_show')({},{'id' : id, 'include_datasets': True})
 
 class TagmanagerPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -34,4 +37,4 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('fanstatic', 'tagmanager')
 
     def get_helpers(self):
-	return {'tagmanager_list_tags':list_tags}
+	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show}
