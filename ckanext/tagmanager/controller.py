@@ -11,10 +11,6 @@ class TagmanagerController(BaseController):
 
     #index function for display form to load datasets for managing their relations
     def index(self):
-	result = p.toolkit.get_action('tag_list')({},{})
-	
-	print result
-
 	return render('tagmanager/index.html')
 	
 

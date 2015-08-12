@@ -4,7 +4,7 @@
 {% block subtitle %}{{ _("Tags") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Datasets'), controller='package', action='search', highlight_actions = 'new index') }}</li>
+  <li class="active">{{ h.nav_link(_('Tags Manager'), controller='package', action='search', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
 {% block primary_content %}
@@ -26,11 +26,32 @@
     <div class="module-content">
     <ul>
     {% block tags_list %}
-      {% for tag in h.tagmanager_list_tags() %}
-	{# link_name = tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count + ')' #}
-	<li>{% link_for tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', controller='package', action='search', tags= tag.display_name %}</li>
+    {% set tl = h.tagmanager_list_tags() %}
+      {% for tag in tl %}
+	<li>{{ h.link_to(tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', h.url_for(controller='package', action='search', tags= tag.name), class_='tag') }}</li>
       {% endfor %}
     {% endblock %}	
+    </ul>
+   </div>
+  </section>
+  {% endblock %}
+  {% block tag_merge_suggestion %}
+  <h2>Merge Suggestions</h2>
+  <section class="module">
+    <div class="module-content">
+    <ul>
+    {% block tags_merge_list %}
+    {% set ml = h.tagmanager_tags_merge_list() %}
+    {% set tl = h.tagmanager_list_tags() %}
+	
+      {% for s in range(tl|count) %}
+        {% for r in range(tl|count) %}
+	  {% if (s != r) and (ml[r][s] > 0.5 )%}
+	<li> {{ tl[s].name }} and {{ tl[r].name }} | merge! </li>
+	  {% endif %}
+       {% endfor %}
+       {% endfor %}
+     {% endblock %}	
     </ul>
    </div>
   </section>
