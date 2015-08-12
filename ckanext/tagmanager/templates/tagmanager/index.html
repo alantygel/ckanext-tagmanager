@@ -1,0 +1,13 @@
+<h1>Hello World!!!??</h1>
+
+{% block featured_organization %}
+
+  {# Show a list of the site's most popular groups. #}
+  <h3>Most popular groups</h3>
+  <ul>
+    {% for tag in h.tagmanager_list_tags() %}
+      <li>{{ tag }}</li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}
