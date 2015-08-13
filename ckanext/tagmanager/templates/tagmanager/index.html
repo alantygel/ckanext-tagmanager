@@ -45,9 +45,13 @@
     {% set tl = h.tagmanager_list_tags() %}
 	
       {% for s in range(tl|count) %}
-        {% for r in range(tl|count) %}
+        {% for r in range(s,tl|count) %}
 	  {% if (s != r) and (ml[r][s] > 0.5 )%}
-	<li> {{ tl[s].name }} and {{ tl[r].name }} | merge! </li>
+	<li> {{ tl[s].name }} and {{ tl[r].name }} | 
+	{# h.link_to(_('Merge'), h.url_for(controller='tagmanager', action='merge_confirm', tag1= tl[s].id, tag2=tl[r].id), class_='button') #}
+	<a href='/tagmanager/merge_confirm?tag1={{ tl[s].id }}&tag2={{tl[r].id}}'>Merge</a>
+
+	</li>
 	  {% endif %}
        {% endfor %}
        {% endfor %}

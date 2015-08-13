@@ -44,7 +44,7 @@ Requirements
 For example, you might want to mention here which versions of CKAN this
 extension works with.
 
-
+Levenshtein https://github.com/ztane/python-Levenshtein/
 ------------
 Installation
 ------------

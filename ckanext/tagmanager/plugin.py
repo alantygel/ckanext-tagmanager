@@ -38,6 +38,8 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         tagmanager = 'ckanext.tagmanager.controller:TagmanagerController'
 
         map.connect('/tagmanager', controller=tagmanager, action='index')
+        map.connect('/tagmanager/merge_confirm', controller=tagmanager, action='merge_confirm')
+        map.connect('/tagmanager/merge', controller=tagmanager, action='merge')
 	return map
 
     def after_map(self, map):

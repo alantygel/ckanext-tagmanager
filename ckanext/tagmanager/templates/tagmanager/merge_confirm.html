@@ -1,0 +1,23 @@
+{% extends "page.html" %}
+{% import 'macros/form.html' as form %}
+
+{% block subtitle %}{{ _("Merge Confirm") }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{{ h.nav_link(_('Tags Manager'), controller='package', action='search', highlight_actions = 'new index') }}</li>
+{% endblock %}
+
+{% block primary_content %}
+   <div class="module-content">
+<p>Do you really want to merge
+{{ h.tagmanager_tag_show(request.GET['tag1']).name }} with
+{{ h.tagmanager_tag_show(request.GET['tag2']).name }} ?
+</p>
+      <form action='/tagmanager/merge' method='POST'>
+	<input type='hidden' name=tag1 value='{{request.GET['tag1']}}'>
+	<input type='hidden' name=tag2 value='{{request.GET['tag2']}}'>
+	<input type='submit' value={{_('Merge')}}>
+      </form>
+   </div>
+
+{% endblock %} <!--primary content -->
