@@ -1,13 +1,17 @@
 {% extends "page.html" %}
 {% import 'macros/form.html' as form %}
 
-{% block subtitle %}{{ _("Tags") }}{% endblock %}
+
+
+{% block subtitle %}{{ _("Tag Manager") }}{% endblock %}
 
 {% block breadcrumb_content %}
   <li class="active">{{ h.nav_link(_('Tags Manager'), controller='package', action='search', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
 {% block primary_content %}
+
+{% if h.check_access('package_create') %}
   <section class="module">
     <div class="module-content">
       {% block page_primary_action %}
@@ -24,11 +28,11 @@
   {% block tag_search_results_api %}
   <section class="module">
     <div class="module-content">
-    <ul>
+    <ul style="list-style=none">
     {% block tags_list %}
     {% set tl = h.tagmanager_list_tags() %}
       {% for tag in tl %}
-	<li>{{ h.link_to(tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', h.url_for(controller='package', action='search', tags= tag.name), class_='tag') }}</li>
+	<li style="display:inline">{{ h.link_to(tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', h.url_for(controller='package', action='search', tags= tag.name), class_='tag') }} {#h.url_for(controller='tagmanager', action='delete_confirm')#} <a href="/tagmanager/delete_confirm?tag={{tag.id}}">x</a></li>
       {% endfor %}
     {% endblock %}	
     </ul>
@@ -60,4 +64,6 @@
    </div>
   </section>
   {% endblock %}
+{% endif %}
 {% endblock %} <!--primary content -->
+

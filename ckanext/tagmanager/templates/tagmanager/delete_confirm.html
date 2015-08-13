@@ -1,0 +1,34 @@
+{% extends "page.html" %}
+{% import 'macros/form.html' as form %}
+
+{% block subtitle %}{{ _("Delete Confirm") }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{{ h.nav_link(_('Tags Manager'), controller='package', action='search', highlight_actions = 'new index') }}</li>
+{% endblock %}
+
+{% block primary_content %}
+   <div class="module-content">
+<p>You are about to delete tag <span class='tag'>
+{{ h.tagmanager_tag_show(request.GET['tag']).name }} 
+</span>. This means that all datasets tagged with 
+<span class='tag'>
+{{ h.tagmanager_tag_show(request.GET['tag']).name }}
+</span>, i.e.:
+<ul>
+{% for dataset in h.tagmanager_tag_show(request.GET['tag']).packages %}
+   <li>{{dataset.title}}</li>
+{% endfor %}
+</ul>
+will be untagged for <span class='tag'>
+{{ h.tagmanager_tag_show(request.GET['tag']).name }}
+</span>.
+</p>
+<p> Are you sure?
+      <form action='/tagmanager/delete' method='POST'>
+	<input type='hidden' name=tag value='{{request.GET['tag']}}'>
+	<input type='submit' value={{_('Delete')}}>
+      </form>
+   </div>
+
+{% endblock %} <!--primary content -->

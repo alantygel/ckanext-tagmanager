@@ -18,6 +18,13 @@ class TagmanagerController(BaseController):
     def merge_confirm(self):
 	return render('tagmanager/merge_confirm.html')	
 
+    def delete_confirm(self):
+	return render('tagmanager/delete_confirm.html')	
+
+    def delete(self):
+	p.toolkit.get_action('tag_delete')({},{'id': request.POST['tag']})
+	return render('tagmanager/index.html')	
+
     def merge(self):
 	"assign all elements tagged with tag2 with tag1; delete tag2"
 

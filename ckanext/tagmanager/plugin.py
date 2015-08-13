@@ -40,6 +40,8 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         map.connect('/tagmanager', controller=tagmanager, action='index')
         map.connect('/tagmanager/merge_confirm', controller=tagmanager, action='merge_confirm')
         map.connect('/tagmanager/merge', controller=tagmanager, action='merge')
+        map.connect('/tagmanager/delete_confirm', controller=tagmanager, action='delete_confirm')
+        map.connect('/tagmanager/delete', controller=tagmanager, action='delete')
 	return map
 
     def after_map(self, map):
