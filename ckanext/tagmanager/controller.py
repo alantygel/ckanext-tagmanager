@@ -3,6 +3,8 @@ import ckan.lib.helpers as helpers
 
 import ckan.plugins as p
 from ckan.lib.base import BaseController, response, request
+import json 
+
 
 c = p.toolkit.c
 render = p.toolkit.render
@@ -21,20 +23,11 @@ class TagmanagerController(BaseController):
 
 	tag2_datasets = p.toolkit.get_action('tag_show')({},{'id' : request.POST['tag2'], 'include_datasets': True})
 
-	for dataset in tag2_datasets['packages']:
-	    #dataset = p.toolkit.get_action('package_show')({},{'id': ds['id'] })
+	for ds in tag2_datasets['packages']:
+	    dataset = p.toolkit.get_action('package_show')({},{'id': ds['id'] })
 	    dataset['tags'].append(p.toolkit.get_action('tag_show')({},{'id':request.POST['tag1']}))
-	    #print ds['tags']	
-
-	    #p.toolkit.get_action('package_update')({},{'id':dataset['id'], 'tags':dataset['tags']})
-
-	#p.toolkit.get_action('tag_delete')({}{'id': request.POST['tag2']})
-
-
+	    p.toolkit.get_action('package_update')({},dataset)
+	   
+	p.toolkit.get_action('tag_delete')({},{'id': request.POST['tag2']})
 	
-
-	print "Tag merged!"
-
-
-
-	return #render('tagmanager/index.html')	
+	return render('tagmanager/index.html')	
