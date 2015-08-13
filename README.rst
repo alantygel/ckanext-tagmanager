@@ -1,4 +1,3 @@
-=============
 ckanext-tagmanager
 =============
 
@@ -8,7 +7,6 @@ Tagmanager offers a graphical interface for adding, editing, removing and mergin
 
 In the future, we plan to offer the creation of relationships between tags, and connection to a central semantic tag server.
 
-------------
 Requirements
 ------------
 
@@ -17,7 +15,6 @@ Before installing tagmanager, make sure you have:
 * CKAN 2.0+
 * Levenshtein python library: https://github.com/ztane/python-Levenshtein/
 
-------------
 Installation
 ------------
 
@@ -39,7 +36,6 @@ To install ckanext-tagmanager:
 
      sudo service apache2 reload
 
-------------------------
 Development Installation
 ------------------------
 
@@ -51,7 +47,6 @@ do::
     python setup.py develop
     pip install -r dev-requirements.txt
 
-----------------------
 Use
 ---------------------
 
