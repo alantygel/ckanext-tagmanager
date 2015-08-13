@@ -9,10 +9,27 @@
 
 {% block primary_content %}
    <div class="module-content">
-<p>Do you really want to merge
-{{ h.tagmanager_tag_show(request.GET['tag1']).name }} with
-{{ h.tagmanager_tag_show(request.GET['tag2']).name }} ?
+<p>You are about to merge <span class='tag'>
+{{ h.tagmanager_tag_show(request.GET['tag1']).name }} 
+</span> with <span class='tag'>
+{{ h.tagmanager_tag_show(request.GET['tag2']).name }}
+</span>. This means that all datasets tagged with 
+<span class='tag'>
+{{ h.tagmanager_tag_show(request.GET['tag2']).name }}
+</span>, i.e.:
+<ul>
+{% for dataset in h.tagmanager_tag_show(request.GET['tag2']).packages %}
+   <li>{{dataset.title}}</li>
+{% endfor %}
+</ul>
+will be tagged with <span class='tag'>
+{{ h.tagmanager_tag_show(request.GET['tag1']).name }}
+</span>
+and tag <span class='tag'>
+{{ h.tagmanager_tag_show(request.GET['tag2']).name }}
+</span> will be deleted.
 </p>
+<p> Are you sure?
       <form action='/tagmanager/merge' method='POST'>
 	<input type='hidden' name=tag1 value='{{request.GET['tag1']}}'>
 	<input type='hidden' name=tag2 value='{{request.GET['tag2']}}'>
