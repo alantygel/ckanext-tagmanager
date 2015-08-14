@@ -32,7 +32,7 @@
   <section class="module">
     <div class="module-content">
     <ul style="list-style=none">
-    {% block tags_list %}
+    {% block tags_list_with_remove %}
     {% set tl = h.tagmanager_list_tags() %}
       {% for tag in tl %}
 	<li style="display:inline">{{ h.link_to(tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', h.url_for(controller='package', action='search', tags= tag.name), class_='tag') }} {#h.url_for(controller='tagmanager', action='delete_confirm')#} <a href="/tagmanager/delete_confirm?tag={{tag.id}}" class="tag_remove" title="{{_('Remove tag ') + tag.name}}">x</a></li>
@@ -87,6 +87,14 @@
 	<input type="submit" value="OK">
     </form>
      {% endblock %}	
+{% else %}
+{% block tags_list %}
+    {% set tl = h.tagmanager_list_tags() %}
+      {% for tag in tl %}
+        <li style="display:inline">{{ h.link_to(tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', h.url_for(controller='package', action='search', tags= tag.name), class_='tag') }}</li>
+      {% endfor %}
+    {% endblock %}
+
 {% endif %}
 {% endblock %} <!--primary content -->
 
