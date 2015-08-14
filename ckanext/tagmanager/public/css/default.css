@@ -1,0 +1,9 @@
+.tag_remove {
+    border-radius: 6px;
+    color: red;
+    border: 1px solid #DDD;
+    padding: 1px 5px;
+    margin-right: 10px;
+    background-color: #FEE;
+    font-weight: 700;
+}

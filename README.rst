@@ -1,7 +1,7 @@
 ckanext-tagmanager
 =============
 
-This is extensions aims to fill the tag managament gap of CKAN. CKAN core offers only a listing of tags, and edition through the the specific datasets. 
+This extensions is intended to fill the tag managament gap of CKAN. CKAN core offers only a listing of tags, and edition through the specific datasets.
 
 Tagmanager offers a graphical interface for adding, editing, removing and merging tags. This is usefull for big open data portals with many contributors, where tags are not always kept consistent.
 

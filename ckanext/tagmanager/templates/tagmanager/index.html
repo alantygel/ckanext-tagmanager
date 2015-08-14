@@ -1,6 +1,4 @@
 {% extends "page.html" %}
-{% import 'macros/form.html' as form %}
-
 
 
 {% block subtitle %}{{ _("Tag Manager") }}{% endblock %}
@@ -11,7 +9,12 @@
 
 {% block primary_content %}
 
+{% block static_styles %}
+<link rel="stylesheet" type="text/css" href="css/default.css" />
+{% endblock %}
+
 {% if h.check_access('package_create') %}
+<!--
   <section class="module">
     <div class="module-content">
       {% block page_primary_action %}
@@ -22,17 +25,17 @@
         {% endif %}
       {% endblock %}
     </div>
-
   </section>
-
+-->
   {% block tag_search_results_api %}
+  <h2>{{_('Tags')}}</h2>
   <section class="module">
     <div class="module-content">
     <ul style="list-style=none">
     {% block tags_list %}
     {% set tl = h.tagmanager_list_tags() %}
       {% for tag in tl %}
-	<li style="display:inline">{{ h.link_to(tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', h.url_for(controller='package', action='search', tags= tag.name), class_='tag') }} {#h.url_for(controller='tagmanager', action='delete_confirm')#} <a href="/tagmanager/delete_confirm?tag={{tag.id}}">x</a></li>
+	<li style="display:inline">{{ h.link_to(tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', h.url_for(controller='package', action='search', tags= tag.name), class_='tag') }} {#h.url_for(controller='tagmanager', action='delete_confirm')#} <a href="/tagmanager/delete_confirm?tag={{tag.id}}" class="tag_remove" title="{{_('Remove tag ') + tag.name}}">x</a></li>
       {% endfor %}
     {% endblock %}	
     </ul>
@@ -40,7 +43,7 @@
   </section>
   {% endblock %}
   {% block tag_merge_suggestion %}
-  <h2>Merge Suggestions</h2>
+  <h2>{{ _('Merge Suggestions')}}</h2>
   <section class="module">
     <div class="module-content">
     <ul>
@@ -51,7 +54,7 @@
       {% for s in range(tl|count) %}
         {% for r in range(s,tl|count) %}
 	  {% if (s != r) and (ml[r][s] > 0.5 )%}
-	<li> {{ tl[s].name }} and {{ tl[r].name }} | 
+	<li><span class='tag'> {{ tl[s].name }}</span> and <span class='tag'>{{ tl[r].name }}</span> &gt; 
 	{# h.link_to(_('Merge'), h.url_for(controller='tagmanager', action='merge_confirm', tag1= tl[s].id, tag2=tl[r].id), class_='button') #}
 	<a href='/tagmanager/merge_confirm?tag1={{ tl[s].id }}&tag2={{tl[r].id}}'>Merge</a>
 
@@ -64,6 +67,26 @@
    </div>
   </section>
   {% endblock %}
+  {% block tag_merge %}
+  <h2>{{_('Merge')}}</h2>
+  <section class="module">
+    <div class="module-content">
+    <form action="/tagmanager/merge_confirm" method="GET">
+	<select name="tag1">
+            {% set tl = h.tagmanager_list_tags() %}
+	    {% for tag in tl %}
+	        <option value={{ tag.id }}>{{ tag.name }}</option>
+	    {% endfor %}
+	</select> {{_('and')}}
+	<select name="tag2">
+            {% set tl = h.tagmanager_list_tags() %}
+	    {% for tag in tl %}
+	        <option value={{ tag.id }}>{{ tag.name }}</option>
+	    {% endfor %}
+	</select>
+	<input type="submit" value="OK">
+    </form>
+     {% endblock %}	
 {% endif %}
 {% endblock %} <!--primary content -->
 
