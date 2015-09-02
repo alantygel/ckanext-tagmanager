@@ -37,4 +37,6 @@ class TagmanagerController(BaseController):
 	   
 	p.toolkit.get_action('tag_delete')({},{'id': request.POST['tag2']})
 	
-	return render('tagmanager/index.html')	
+	#p.toolkit.redirect_to(controller='tagmanager', action='index')
+
+	return render('tagmanager/index.html')
