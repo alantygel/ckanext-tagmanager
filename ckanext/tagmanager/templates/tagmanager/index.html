@@ -1,6 +1,5 @@
 {% extends "page.html" %}
 
-
 {% block subtitle %}{{ _("Tag Manager") }}{% endblock %}
 
 {% block breadcrumb_content %}
@@ -33,12 +32,8 @@
     <div class="module-content">
     <ul style="list-style=none">
     {% block tags_list_with_remove %}
-    {% set tl = h.tagmanager_list_tags() %}
-      {% for tag in tl %}
-	<li style="display:inline; position:relative"><div style='float:left'>{{ h.link_to(tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', h.url_for(controller='package', action='search', tags= tag.name), class_='tag') }} {#h.url_for(controller='tagmanager', action='delete_confirm')#} <a href="/tagmanager/delete_confirm?tag={{tag.id}}" class="tag_remove" title="{{_('Remove tag ') + tag.name}}">x</a></div></li>
-      {% endfor %}
+	 {% snippet "tagmanager/snippets/tags_list_with_remove.html" %}
     {% endblock %}	
-    </ul>
    </div>
   </section>
   {% endblock %}
@@ -46,54 +41,24 @@
   <section class="module">
   <h2>{{ _('Merge Suggestions')}}</h2>
     <div class="module-content">
-    <ul>
-    {% block tags_merge_list %}
-    {% set ml = h.tagmanager_tags_merge_list() %}
-    {% set tl = h.tagmanager_list_tags() %}
-	
-      {% for s in range(tl|count) %}
-        {% for r in range(s,tl|count) %}
-	  {% if (s != r) and (ml[r][s] > 0.5 )%}
-	<li><span class='tag'> {{ tl[s].name }}</span> and <span class='tag'>{{ tl[r].name }}</span> &gt; 
-	{# h.link_to(_('Merge'), h.url_for(controller='tagmanager', action='merge_confirm', tag1= tl[s].id, tag2=tl[r].id), class_='button') #}
-	<a href='/tagmanager/merge_confirm?tag1={{ tl[s].id }}&tag2={{tl[r].id}}'>Merge</a>
-
-	</li>
-	  {% endif %}
-       {% endfor %}
-       {% endfor %}
-     {% endblock %}	
-    </ul>
+    {% block merge_tags_0 %}
+	 {% snippet "tagmanager/snippets/merge_tags_0.html" %}
+    {% endblock %}	
+    {% block merge_tags_1 %}
+	 {% snippet "tagmanager/snippets/merge_tags_1.html" %}
+    {% endblock %}	
    </div>
   </section>
   {% endblock %}
-  {% block tag_merge %}
-  <h2>{{_('Merge')}}</h2>
   <section class="module">
     <div class="module-content">
-    <form action="/tagmanager/merge_confirm" method="GET">
-	<select name="tag1">
-            {% set tl = h.tagmanager_list_tags() %}
-	    {% for tag in tl %}
-	        <option value={{ tag.id }}>{{ tag.name }}</option>
-	    {% endfor %}
-	</select> {{_('and')}}
-	<select name="tag2">
-            {% set tl = h.tagmanager_list_tags() %}
-	    {% for tag in tl %}
-	        <option value={{ tag.id }}>{{ tag.name }}</option>
-	    {% endfor %}
-	</select>
-	<input type="submit" value="OK">
-    </form>
-     {% endblock %}	
+  {% block merge_tags_form %}
+	 {% snippet "tagmanager/snippets/merge_tags_form.html" %}
+  {% endblock %}	
 {% else %}
 {% block tags_list %}
-    {% set tl = h.tagmanager_list_tags() %}
-      {% for tag in tl %}
-        <li style="display:inline">{{ h.link_to(tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', h.url_for(controller='package', action='search', tags= tag.name), class_='tag') }}</li>
-      {% endfor %}
-    {% endblock %}
+	 {% snippet "tagmanager/snippets/tags_list.html" %}
+{% endblock %}
 
 {% endif %}
 {% endblock %} <!--primary content -->

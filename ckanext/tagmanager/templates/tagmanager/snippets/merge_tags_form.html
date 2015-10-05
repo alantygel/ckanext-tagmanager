@@ -1,0 +1,16 @@
+<h2>{{_('Merge')}}</h2>
+	<form action="/tagmanager/merge_confirm" method="GET">
+	    <select name="tag1">
+	  	{% set tl = h.tagmanager_list_tags() %}
+		{% for tag in tl %}
+		    <option value={{ tag.id }}>{{ tag.name }}</option>
+		{% endfor %}
+	    </select> {{_('and')}}
+	    <select name="tag2">
+		{% set tl = h.tagmanager_list_tags() %}
+		{% for tag in tl %}
+		    <option value={{ tag.id }}>{{ tag.name }}</option>
+		{% endfor %}
+	    </select>
+	    <input type="submit" value="OK">
+	</form>

@@ -1,0 +1,6 @@
+<ul>
+{% set tl = h.tagmanager_list_tags() %} 
+    {% for tag in tl %} 
+        <li style="display:inline">{{ h.link_to(tag.display_name + ' (' + h.tagmanager_tag_show(tag.id).packages|count|string + ')', h.url_for(controller='package', action='search', tags= tag.name), class_='tag') }}</li> 
+{% endfor %} 
+</ul>

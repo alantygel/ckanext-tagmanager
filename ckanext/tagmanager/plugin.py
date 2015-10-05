@@ -1,6 +1,7 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import Levenshtein
+from unidecode import unidecode
 
 def list_tags():
     return plugins.toolkit.get_action('tag_list')({},{'all_fields' : True})
@@ -8,7 +9,19 @@ def list_tags():
 def tag_show(id):
     return plugins.toolkit.get_action('tag_show')({},{'id' : id, 'include_datasets': True})
 
-def tags_merge_list():
+
+def tags_merge_list_0():
+    tags = list_tags()
+    T = len(tags)
+    dist = [[0 for x in range(T)] for x in range(T)]
+    for t in range(0,T-1):
+	for s in range(t, T-1):
+            if unidecode(tags[s]['name'].lower()) == unidecode(tags[t]['name'].lower()):
+		dist[s][t] = 1	
+
+    return dist
+
+def tags_merge_list_1():
     tags = list_tags()
     T = len(tags)
     dist = [[0 for x in range(T)] for x in range(T)] 
@@ -54,4 +67,4 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('fanstatic', 'tagmanager')
 
     def get_helpers(self):
-	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list': tags_merge_list}
+	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list_0': tags_merge_list_0, 'tagmanager_tags_merge_list_1': tags_merge_list_1}
