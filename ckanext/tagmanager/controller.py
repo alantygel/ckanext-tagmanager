@@ -13,6 +13,7 @@ class TagmanagerController(BaseController):
     #index function for display form to load datasets for managing their relations
     def index(self):
 	return render('tagmanager/index.html')
+
     def edit(self):
 	return render('tagmanager/edit.html')
 
