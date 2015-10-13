@@ -82,7 +82,10 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         tagmanager = 'ckanext.tagmanager.controller:TagmanagerController'
 
         map.connect('/tagmanager', 'tagmanager', controller=tagmanager, action='index')
-        map.connect('/tagmanager/edit', 'tagmanager/edit', controller=tagmanager, action='edit')
+        map.connect('/tagmanager/edit', controller=tagmanager, action='edit')
+        map.connect('/tagmanager/merge_0', controller=tagmanager, action='merge_0')
+        map.connect('/tagmanager/merge_1', controller=tagmanager, action='merge_1')
+        map.connect('/tagmanager/merge_form', controller=tagmanager, action='merge_form')
         map.connect('/tagmanager', controller=tagmanager, action='index')
         map.connect('/tagmanager/merge_confirm', controller=tagmanager, action='merge_confirm')
         map.connect('/tagmanager/merge', controller=tagmanager, action='merge')

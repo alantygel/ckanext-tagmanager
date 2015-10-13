@@ -18,11 +18,7 @@
 	
 	<h1 class="hide-heading">{{ _('Tags') }}</h1>
 	{% if h.check_access('group_create') %} <!-- TODO Tag create access! -->
-	  
-		{% block tags_list_with_remove %}
-			{% snippet "tagmanager/snippets/tags_list_with_remove.html" %}
-		{% endblock %}	
-	  
+	  	  
 		{% block tag_merge_suggestion %}
 	  		<section class="module">
 	  			<h2>{{ _('Merge Suggestions')}}</h2>
@@ -49,6 +45,6 @@
 {% endblock %} <!--primary content inner -->
 
 {% block secondary_content %}
-  {% snippet "group/snippets/helper.html" %}
+  {% snippet "tagmanager/snippets/menu.html" %}
 {% endblock %}
 
