@@ -4,6 +4,11 @@ import Levenshtein
 from unidecode import unidecode
 
 def list_tags():
+#     query = db.Tag.query()
+#     query = query.filter_by(state='active')
+#     return query
+
+
     return plugins.toolkit.get_action('tag_list')({},{'all_fields' : True})
 
 def tag_show(id):
@@ -24,13 +29,39 @@ def tags_merge_list_0():
 def tags_merge_list_1():
     tags = list_tags()
     T = len(tags)
-    dist = [[0 for x in range(T)] for x in range(T)] 
+    dist = [[10 for x in range(T)] for x in range(T)] 
     for t in range(0,T-1):
-        for s in range(0,T-1):
-	    if s != t:
-	        dist[s][t] = Levenshtein.ratio(tags[t]['name'],tags[s]['name'])
+	#check if there are numbers
+	stri = tags[t]['name'] 
+	if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []):
+            for s in range(t,T-1):
+		strj = tags[s]['name']
+		if (s!=t) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
+		    if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
+	    	    	dist[s][t] = Levenshtein.distance(tags[t]['name'],tags[s]['name'])
 		
     return dist
+
+def tags_merge_list_2():
+    tags = list_tags()
+    T = len(tags)
+    dist = [[0 for x in range(T)] for x in range(T)]
+    for t in range(0,T-1):
+        #check if there are numbers
+        stri = tags[t]['name']
+        if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []):
+            for s in range(t,T-1):
+                strj = tags[s]['name']
+                if (s!=t) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
+                    if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
+    			url = 'http://maraca.d.umn.edu/cgi-bin/similarity/similarity.cgi?word1=' + stri + '&senses1=all&word2=' + strj + '&senses2=all&measure=path&rootnode=yes'
+                        dist[s][t] = Levenshtein.distance(tags[t]['name'],tags[s]['name'])
+
+    return dist
+
+
+
+
 
 
 class TagmanagerPlugin(plugins.SingletonPlugin):
@@ -51,6 +82,7 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         tagmanager = 'ckanext.tagmanager.controller:TagmanagerController'
 
         map.connect('/tagmanager', 'tagmanager', controller=tagmanager, action='index')
+        map.connect('/tagmanager/edit', 'tagmanager/edit', controller=tagmanager, action='edit')
         map.connect('/tagmanager', controller=tagmanager, action='index')
         map.connect('/tagmanager/merge_confirm', controller=tagmanager, action='merge_confirm')
         map.connect('/tagmanager/merge', controller=tagmanager, action='merge')

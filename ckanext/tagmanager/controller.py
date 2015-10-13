@@ -5,7 +5,6 @@ import ckan.plugins as p
 from ckan.lib.base import BaseController, response, request
 import json 
 
-
 c = p.toolkit.c
 render = p.toolkit.render
 
@@ -14,6 +13,8 @@ class TagmanagerController(BaseController):
     #index function for display form to load datasets for managing their relations
     def index(self):
 	return render('tagmanager/index.html')
+    def edit(self):
+	return render('tagmanager/edit.html')
 
     def merge_confirm(self):
 	return render('tagmanager/merge_confirm.html')	

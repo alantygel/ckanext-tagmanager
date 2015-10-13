@@ -1,0 +1,62 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _("Tag Manager") }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{{ h.nav_link(_('Tags Manager'), controller='package', action='search', highlight_actions = 'new index') }}</li>
+{% endblock %}
+
+{% block primary_content %}
+
+{% block static_styles %}
+<link rel="stylesheet" type="text/css" href="css/default.css" />
+{% endblock %}
+
+{% if h.check_access('package_create') %}
+<!--
+  <section class="module">
+    <div class="module-content">
+      {% block page_primary_action %}
+        {% if h.check_access('package_create') %}
+          <div class="page_primary_action">
+            {% link_for _('Add Tag'), controller='package', action='new', class_='btn btn-primary', icon='plus-sign-alt' %}
+          </div>
+        {% endif %}
+      {% endblock %}
+    </div>
+  </section>
+-->
+  {% block tag_search_results_api %}
+  <h2>{{_('Tags')}}</h2>
+  <section class="module" style="display:inline-block">
+    <div class="module-content">
+    <ul style="list-style=none">
+    {% block tags_list_with_remove %}
+	 {% snippet "tagmanager/snippets/tags_list_with_remove.html" %}
+    {% endblock %}	
+   </div>
+  </section>
+  {% endblock %}
+{% endif %}
+{% endblock %} <!--primary content -->
+
+<div class="module module-narrow module-shallow">
+  <h2 class="module-heading">
+    <i class="icon-info-sign"></i>
+    {{ _('What are Groups?') }}
+  </h2>
+  <div class="module-content">
+    <p>
+      {% trans %}
+        You can use CKAN Groups to create and manage collections of datasets.
+        This could be to catalogue datasets for a particular project or team,
+        or on a particular theme, or as a very simple way to help people find
+        and search your own published datasets.
+      {% endtrans %}
+    </p>
+  </div>
+</div>
+
+
+   </div>
+  </section>
