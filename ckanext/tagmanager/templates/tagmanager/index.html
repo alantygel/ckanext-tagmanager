@@ -6,60 +6,49 @@
   <li class="active">{{ h.nav_link(_('Tags Manager'), controller='package', action='search', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
-{% block primary_content %}
+{% block page_header %}{% endblock %}
 
-{% block static_styles %}
-<link rel="stylesheet" type="text/css" href="css/default.css" />
+{% block page_primary_action %}
+  {% if h.check_access('group_create') %}
+    {% link_for _('Add Group'), controller='group', action='new', class_='btn btn-primary', icon='plus-sign-alt' %}
+  {% endif %}
 {% endblock %}
 
-{% if h.check_access('package_create') %}
-<!--
-  <section class="module">
-    <div class="module-content">
-      {% block page_primary_action %}
-        {% if h.check_access('package_create') %}
-          <div class="page_primary_action">
-            {% link_for _('Add Tag'), controller='package', action='new', class_='btn btn-primary', icon='plus-sign-alt' %}
-          </div>
-        {% endif %}
-      {% endblock %}
-    </div>
-  </section>
--->
-  {% block tag_search_results_api %}
-  <h2>{{_('Tags')}}</h2>
-  <section class="module" style="display:inline-block">
-    <div class="module-content">
-    <ul style="list-style=none">
-    {% block tags_list_with_remove %}
-	 {% snippet "tagmanager/snippets/tags_list_with_remove.html" %}
-    {% endblock %}	
-   </div>
-  </section>
-  {% endblock %}
-  {% block tag_merge_suggestion %}
-  <section class="module">
-  <h2>{{ _('Merge Suggestions')}}</h2>
-    <div class="module-content">
-    {% block merge_tags_0 %}
-	 {% snippet "tagmanager/snippets/merge_tags_0.html" %}
-    {% endblock %}	
-    {% block merge_tags_1 %}
-	 {% snippet "tagmanager/snippets/merge_tags_1.html" %}
-    {% endblock %}	
-   </div>
-  </section>
-  {% endblock %}
-  <section class="module">
-    <div class="module-content">
-  {% block merge_tags_form %}
-	 {% snippet "tagmanager/snippets/merge_tags_form.html" %}
-  {% endblock %}	
-{% else %}
-{% block tags_list %}
-	 {% snippet "tagmanager/snippets/tags_list.html" %}
-{% endblock %}
+{% block primary_content_inner %}
+	
+	<h1 class="hide-heading">{{ _('Tags') }}</h1>
+	{% if h.check_access('group_create') %} <!-- TODO Tag create access! -->
+	  
+		{% block tags_list_with_remove %}
+			{% snippet "tagmanager/snippets/tags_list_with_remove.html" %}
+		{% endblock %}	
+	  
+		{% block tag_merge_suggestion %}
+	  		<section class="module">
+	  			<h2>{{ _('Merge Suggestions')}}</h2>
+				<div class="module-content">
+			{% block merge_tags_0 %}
+				{% snippet "tagmanager/snippets/merge_tags_0.html" %}
+			{% endblock %}	
+			{% block merge_tags_1 %}
+		 		{% snippet "tagmanager/snippets/merge_tags_1.html" %}
+			{% endblock %}	
+			{% block merge_tags_form %}
+				{% snippet "tagmanager/snippets/merge_tags_form.html" %}
+			{% endblock %}	
+	   			</div>
+	 		</section>
+	  	{% endblock %}
 
-{% endif %}
-{% endblock %} <!--primary content -->
+	{% else %}
+		{% block tags_list %}
+			 {% snippet "tagmanager/snippets/tags_list.html" %}
+		{% endblock %}
+
+	{% endif %} <!-- tag create access -->
+{% endblock %} <!--primary content inner -->
+
+{% block secondary_content %}
+  {% snippet "group/snippets/helper.html" %}
+{% endblock %}
 
