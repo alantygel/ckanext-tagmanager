@@ -3,7 +3,7 @@
 {% block subtitle %}{{ _("Tag Manager") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Tags Manager'), controller='package', action='search', highlight_actions = 'new index') }}</li>
+  <li class="active">{{ h.nav_link(_('Tags Manager'), controller='ckanext.tagmanager.controller:TagmanagerController', action='index', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
 {% block page_header %}{% endblock %}
@@ -33,6 +33,6 @@
 {% endblock %} <!--primary content inner -->
 
 {% block secondary_content %}
-  {% snippet "group/snippets/helper.html" %}
+  {% snippet "tagmanager/snippets/menu.html" %}
 {% endblock %}
 

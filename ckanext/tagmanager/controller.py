@@ -17,6 +17,15 @@ class TagmanagerController(BaseController):
     def edit(self):
 	return render('tagmanager/edit.html')
 
+    def merge_0(self):
+	return render('tagmanager/merge_0.html')	
+
+    def merge_1(self):
+	return render('tagmanager/merge_1.html')	
+   
+    def merge_form(self):
+	return render('tagmanager/merge_form.html')	
+
     def merge_confirm(self):
 	return render('tagmanager/merge_confirm.html')	
 
