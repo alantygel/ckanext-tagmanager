@@ -4,32 +4,39 @@ import Levenshtein
 from unidecode import unidecode
 
 def list_tags():
-#     query = db.Tag.query()
-#     query = query.filter_by(state='active')
-#     return query
-
-
     return plugins.toolkit.get_action('tag_list')({},{'all_fields' : True})
 
 def tag_show(id):
     return plugins.toolkit.get_action('tag_show')({},{'id' : id, 'include_datasets': True})
 
+def tags_stats():
+    tags = list_tags()
+    total = len(tags)
+    #tags_count = []
+    #for t in range(0,len(tags)):
+	#print tags[t]
+	#tags_count[t] = plugins.toolkit.get_action('tag_show')({},{'id' : tags[t]['id']})
+
+    return total;
+
+def tag_count(id):
+    return plugins.toolkit.get_action('tag_show')({},{'id' : id, 'include_datasets': True})
 
 def tags_merge_list_0():
     tags = list_tags()
     T = len(tags)
-    dist = [[0 for x in range(T)] for x in range(T)]
+    merge_list = []
     for t in range(0,T-1):
-	for s in range(t, T-1):
+	for s in range(t+1, T-1):
             if unidecode(tags[s]['name'].lower()) == unidecode(tags[t]['name'].lower()):
-		dist[s][t] = 1	
+		merge_list.append([tags[s],tags[t]])
 
-    return dist
+    return merge_list
 
 def tags_merge_list_1():
     tags = list_tags()
     T = len(tags)
-    dist = [[10 for x in range(T)] for x in range(T)] 
+    merge_list = []
     for t in range(0,T-1):
 	#check if there are numbers
 	stri = tags[t]['name'] 
@@ -38,9 +45,12 @@ def tags_merge_list_1():
 		strj = tags[s]['name']
 		if (s!=t) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
 		    if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
-	    	    	dist[s][t] = Levenshtein.distance(tags[t]['name'],tags[s]['name'])
+	    	    	d = Levenshtein.distance(tags[t]['name'],tags[s]['name'])
+			if d < 3:
+			    merge_list.append([tags[s],tags[t]])
+			    
 		
-    return dist
+    return merge_list
 
 def tags_merge_list_2():
     tags = list_tags()
@@ -102,4 +112,4 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('fanstatic', 'tagmanager')
 
     def get_helpers(self):
-	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list_0': tags_merge_list_0, 'tagmanager_tags_merge_list_1': tags_merge_list_1}
+	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list_0': tags_merge_list_0, 'tagmanager_tags_merge_list_1': tags_merge_list_1, 'tagmanager_tags_stats': tags_stats, 'tagmanager_tag_count':tag_count}

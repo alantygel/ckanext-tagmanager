@@ -1,18 +1,10 @@
-<h3>{{ _('Very Similar Tags') }}</h3>
-
 <ul>
 {% set ml = h.tagmanager_tags_merge_list_0() %}
-{% set tl = h.tagmanager_list_tags() %}
+{# set tl = h.tagmanager_list_tags() #}
 
-{% for s in range(tl|count) %}
-    {% for r in range(s,tl|count) %}
-        {% if (s != r) and (ml[r][s] == 1 )%}
-        <li><span class='tag'> {{ tl[s].name }}</span> and <span class='tag'>{{ tl[r].name }}</span> &gt;
-        {# h.link_to(_('Merge'), h.url_for(controller='tagmanager', action='merge_confirm', tag1= tl[s].id, tag2=tl[r].id), class_='button') #}
-        <a href='/tagmanager/merge_confirm?tag1={{ tl[s].id }}&tag2={{tl[r].id}}'>Merge</a>
-
+{% for s in range(5) %}
+        <li><span class='tag'> {{ ml[s][0].name }}</span> and <span class='tag'>{{ ml[s][1].name }}</span> &gt;
+        {{ h.link_to(_('Merge'), h.url_for(controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_confirm', tag1=ml[s][0].id, tag2=ml[s][1].id), class_='button') }}
         </li>
-        {% endif %}
-   {% endfor %}
 {% endfor %}
 </ul>

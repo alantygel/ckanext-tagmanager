@@ -1,0 +1,15 @@
+<h3>{{ _('You have suggestions for merging:') }}</h3>
+
+<p>We strongly suggest you to merge: </p>
+{% block strongly_suggest %}
+	{% snippet "tagmanager/snippets/merge_tags_0.html" %}
+{% endblock %}
+{% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_0'%}
+
+<br><br>
+
+<p>You may also want to merge: </p>
+{% block suggest %}
+	{% snippet "tagmanager/snippets/merge_tags_1.html" %}
+{% endblock %}
+{% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_1'%}

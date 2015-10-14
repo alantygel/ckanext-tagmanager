@@ -3,7 +3,7 @@
 {% block subtitle %}{{ _("Tag Manager") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Tags Manager'), controller='ckanext.tagmanager.controller:TagmanagerController', action='index', highlight_actions = 'new index') }}</li>
+  <li class="active">{{ h.nav_link(_('Tag Manager'), controller='ckanext.tagmanager.controller:TagmanagerController', action='index', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
 {% block page_header %}{% endblock %}
@@ -12,7 +12,15 @@
 	
 	<h1 class="hide-heading">{{ _('Tags') }}</h1>
 	{% if h.check_access('group_create') %} <!-- TODO Tag create access! -->
-	<p> Welcome to the tag manager plugin. You have XX merging sugestions! </p>	  	  
+	<p><b><em> Welcome to the CKAN Tag Manager Plugin.</em></b> <br><br>Here you can see statistics about your tags, and use tools for enhancing their quality. The Simple Merge Suggestions will point you all tags different by capital letters or special characters. The Levenshtein Merge Suggestions will show tags that differ by one or two edits. Finally, you can also manually merge tags. </p>	  	  
+	
+	{% block tags_stats %}
+		{# snippet "tagmanager/snippets/tags_stats.html" #}
+	{% endblock %}
+	
+	{% block merge_preview %}
+		{% snippet "tagmanager/snippets/merge_preview.html" %}
+	{% endblock %}
 
 	{% else %}
 		{% block tags_list %}
