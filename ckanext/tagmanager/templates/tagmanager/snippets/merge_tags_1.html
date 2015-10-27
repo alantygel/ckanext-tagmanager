@@ -1,6 +1,5 @@
 <ul>
-{% set ml = h.tagmanager_tags_merge_list_1() %}
-{# set tl = h.tagmanager_list_tags() #}
+{% set ml = h.tagmanager_tags_merge_list_1(5) %}
 
 {% for s in range(5) %}
         <li><span class='tag'> {{ ml[s][0].name }}</span> and <span class='tag'>{{ ml[s][1].name }}</span> &gt;
