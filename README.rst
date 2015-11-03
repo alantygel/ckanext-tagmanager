@@ -27,7 +27,7 @@ To install ckanext-tagmanager:
 
 2. Install the ckanext-tagmanager Python package into your virtual environment::
 
-     #pip install ckanext-tagmanage
+     //pip install ckanext-tagmanager
      git clone https://github.com/alantygel/ckanext-tagmanager
      cd ckanext-tagmanager
      python setup.py install
