@@ -13,7 +13,8 @@ Requirements
 Before installing tagmanager, make sure you have:
 
 * CKAN 2.0+
-* Levenshtein python library: https://github.com/ztane/python-Levenshtein/
+* Levenshtein python library: pip install python-Levenshtein
+* Unidecode python library: pip install unidecode
 
 Installation
 ------------
@@ -26,7 +27,10 @@ To install ckanext-tagmanager:
 
 2. Install the ckanext-tagmanager Python package into your virtual environment::
 
-     pip install ckanext-tagmanager
+     #pip install ckanext-tagmanage
+     git clone https://github.com/alantygel/ckanext-tagmanager
+     cd ckanext-tagmanager
+     python setup.py install
 
 3. Add ``tagmanager`` to the ``ckan.plugins`` setting in your CKAN
    config file (by default the config file is located at
