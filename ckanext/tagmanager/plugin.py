@@ -63,27 +63,35 @@ def tags_merge_list_1(limit = None):
 		
 	return merge_list
 
-def tags_merge_list_2():
-    tags = list_tags()
-    T = len(tags)
-    dist = [[0 for x in range(T)] for x in range(T)]
-    for t in range(0,T-1):
-        #check if there are numbers
-        stri = tags[t]['name']
-        if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []):
-            for s in range(t,T-1):
-                strj = tags[s]['name']
-                if (s!=t) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
-                    if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
-    			url = 'http://maraca.d.umn.edu/cgi-bin/similarity/similarity.cgi?word1=' + stri + '&senses1=all&word2=' + strj + '&senses2=all&measure=path&rootnode=yes'
-                        dist[s][t] = Levenshtein.distance(tags[t]['name'],tags[s]['name'])
-
-    return dist
-
-
-
-
-
+def tags_merge_list_2(limit = None):
+	from nltk.corpus import wordnet as wn
+	tags = list_tags()
+	T = len(tags)
+	merge_list = []
+	count = 0
+	if limit == None:
+		limit = 1000 #MAX_LIMIT
+	for t in range(0,T-1):
+	#check if there are numbers
+		stri = tags[t]['name'] 
+		if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []) and (len(stri) > 3):
+			syn1=wn.synsets(stri)
+			if syn1 != []:
+				for s in range(t,T-1):
+					strj = tags[s]['name']
+					if (len(strj) > 3) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
+						syn2=wn.synsets(strj)
+						if syn2 != []:
+							if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
+								if Levenshtein.distance(tags[t]['name'],tags[s]['name']) > 3:
+									b = max(syn2[i].wup_similarity(syn1[0]) for i in range(len(syn2)))
+									if b >= 1:
+										merge_list.append([tags[s],tags[t]])
+										count += 1
+										if count > limit:
+						   					return merge_list
+		
+	return merge_list
 
 class TagmanagerPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -106,6 +114,7 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         map.connect('/tagmanager/edit', controller=tagmanager, action='edit')
         map.connect('/tagmanager/merge_0', controller=tagmanager, action='merge_0')
         map.connect('/tagmanager/merge_1', controller=tagmanager, action='merge_1')
+        map.connect('/tagmanager/merge_2', controller=tagmanager, action='merge_2')
         map.connect('/tagmanager/merge_form', controller=tagmanager, action='merge_form')
         map.connect('/tagmanager', controller=tagmanager, action='index')
         map.connect('/tagmanager/merge_confirm', controller=tagmanager, action='merge_confirm')
@@ -123,4 +132,4 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('fanstatic', 'tagmanager')
 
     def get_helpers(self):
-	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list_0': tags_merge_list_0, 'tagmanager_tags_merge_list_1': tags_merge_list_1, 'tagmanager_tags_stats': tags_stats, 'tagmanager_tag_count':tag_count}
+	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list_0': tags_merge_list_0, 'tagmanager_tags_merge_list_1': tags_merge_list_1, 'tagmanager_tags_merge_list_2': tags_merge_list_2, 'tagmanager_tags_stats': tags_stats, 'tagmanager_tag_count':tag_count}

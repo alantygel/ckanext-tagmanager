@@ -15,3 +15,10 @@
 	{% include "tagmanager/snippets/merge_tags_1.html" %}
 {% endblock %}
 {% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_1'%}
+
+<p>or check for the possible synonyms: </p>
+{% block synonyms %}
+	{% set limit = 5 %}
+	{% include "tagmanager/snippets/merge_tags_2.html" %}
+{% endblock %}
+{% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_2'%}

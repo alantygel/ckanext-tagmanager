@@ -1,0 +1,39 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _("Tag Manager") }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{{ h.nav_link(_('Tags Manager'), controller='ckanext.tagmanager.controller:TagmanagerController', action='index', highlight_actions = 'new index') }}</li>
+{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block primary_content_inner %}
+	
+	<h1 class="hide-heading">{{ _('Tags') }}</h1>
+	{% if h.check_access('group_create') %} <!-- TODO Tag create access! -->
+	  	  
+		{% block tag_merge_suggestion %}
+	  		<section class="module">
+	  			<h2>{{ _('Merge Suggestions')}}</h2>
+				<div class="module-content">
+			{% block merge_tags_2 %}
+				{% set limit = 30 %}
+				{% include "tagmanager/snippets/merge_tags_2.html" %}
+			{% endblock %}	
+	   			</div>
+	 		</section>
+	  	{% endblock %}
+
+	{% else %}
+		{% block tags_list %}
+			 {% snippet "tagmanager/snippets/tags_list.html" %}
+		{% endblock %}
+
+	{% endif %} <!-- tag create access -->
+{% endblock %} <!--primary content inner -->
+
+{% block secondary_content %}
+  {% snippet "tagmanager/snippets/menu.html" %}
+{% endblock %}
+
