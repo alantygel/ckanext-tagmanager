@@ -1,9 +1,9 @@
 <ul>
-{% set ml = h.tagmanager_tags_merge_list_0(5) %}
+{% set ml = h.tagmanager_tags_merge_list_0(limit) %}
 
-{% for s in range(5) %}
-        <li><span class='tag'> {{ ml[s][0].name }}</span> and <span class='tag'>{{ ml[s][1].name }}</span> &gt;
-        {{ h.link_to(_('Merge'), h.url_for(controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_confirm', tag1=ml[s][0].id, tag2=ml[s][1].id), class_='button') }}
+{% for pair in ml %}
+        <li><span class='tag'> {{ pair[0].name }}</span> and <span class='tag'>{{ pair[1].name }}</span> &gt;
+        {{ h.link_to(_('Merge'), h.url_for(controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_confirm', tag1=pair[0].id, tag2=pair[1].id), class_='button') }}
         </li>
 {% endfor %}
 </ul>

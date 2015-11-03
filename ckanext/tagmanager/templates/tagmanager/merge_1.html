@@ -18,7 +18,8 @@
 	  			<h2>{{ _('Merge Suggestions')}}</h2>
 				<div class="module-content">
 			{% block merge_tags_1 %}
-				{% snippet "tagmanager/snippets/merge_tags_1.html" %}
+				{% set limit = 30 %}
+				{% include "tagmanager/snippets/merge_tags_1.html" %}
 			{% endblock %}	
 	   			</div>
 	 		</section>

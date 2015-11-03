@@ -23,47 +23,45 @@ def tag_count(id):
     return plugins.toolkit.get_action('tag_show')({},{'id' : id, 'include_datasets': True})
 
 def tags_merge_list_0(limit=None):
-    tags = list_tags()
-    T = len(tags)
-    merge_list = []
-    count = 0
-    if limit == None:
-	limit = 1000 #MAX_LIMIT
-    for t in range(0,T-1):
-	for s in range(t+1, T-1):
-            if unidecode(tags[s]['name'].lower()) == unidecode(tags[t]['name'].lower()):
-		merge_list.append([tags[s],tags[t]])
-		count += 1
-		print "here"
-		if count > limit:
-    		    return merge_list
+	tags = list_tags()
+	T = len(tags)
+	merge_list = []
+	count = 0
+	if limit == None:
+		limit = 1000 #MAX_LIMIT
+	for t in range(0,T-1):
+		for s in range(t+1, T-1):
+			if unidecode(tags[s]['name'].lower()) == unidecode(tags[t]['name'].lower()):
+				merge_list.append([tags[s],tags[t]])
+				count += 1
+				if count > limit:
+					return merge_list
 
-    return merge_list
+	return merge_list
 
 def tags_merge_list_1(limit = None):
-    tags = list_tags()
-    T = len(tags)
-    merge_list = []
-    count = 0
-    if limit == None:
-	limit = 1000 #MAX_LIMIT
-    for t in range(0,T-1):
+	tags = list_tags()
+	T = len(tags)
+	merge_list = []
+	count = 0
+	if limit == None:
+		limit = 1000 #MAX_LIMIT
+	for t in range(0,T-1):
 	#check if there are numbers
-	stri = tags[t]['name'] 
-	if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []):
-            for s in range(t,T-1):
-		strj = tags[s]['name']
-		if (s!=t) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
-		    if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
-	    	    	d = Levenshtein.distance(tags[t]['name'],tags[s]['name'])
-			if d < 3:
-			    merge_list.append([tags[s],tags[t]])
-			    count += 1
-			    print "hehre"
-			    if count > limit:
-   				 return merge_list
+		stri = tags[t]['name'] 
+		if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []) and (len(stri) > 3):
+			for s in range(t,T-1):
+				strj = tags[s]['name']
+				if (len(strj) > 3) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
+					if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
+						d = Levenshtein.distance(tags[t]['name'],tags[s]['name'])
+						if d < 3:
+							merge_list.append([tags[s],tags[t]])
+							count += 1
+							if count > limit:
+			   					return merge_list
 		
-    return merge_list
+	return merge_list
 
 def tags_merge_list_2():
     tags = list_tags()

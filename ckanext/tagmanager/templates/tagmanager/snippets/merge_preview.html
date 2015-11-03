@@ -2,7 +2,8 @@
 
 <p>We strongly suggest you to merge: </p>
 {% block strongly_suggest %}
-	{% snippet "tagmanager/snippets/merge_tags_0.html" %}
+	{% set limit = 5 %}
+	{% include "tagmanager/snippets/merge_tags_0.html" %}
 {% endblock %}
 {% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_0'%}
 
@@ -10,6 +11,7 @@
 
 <p>You may also want to merge: </p>
 {% block suggest %}
-	{% snippet "tagmanager/snippets/merge_tags_1.html" %}
+	{% set limit = 5 %}
+	{% include "tagmanager/snippets/merge_tags_1.html" %}
 {% endblock %}
 {% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_1'%}
