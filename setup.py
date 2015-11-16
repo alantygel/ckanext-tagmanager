@@ -79,5 +79,10 @@ setup(
     entry_points='''
         [ckan.plugins]
         tagmanager=ckanext.tagmanager.plugin:TagmanagerPlugin
+ 
+	[paste.paster_command]
+        tagmanager=ckanext.tagmanager.commands:TagmanagerCommands
     ''',
+
+   ''',
 )

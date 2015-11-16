@@ -2,6 +2,9 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import Levenshtein
 from unidecode import unidecode
+import db
+import ckan.model as model
+
 
 def list_tags():
     return plugins.toolkit.get_action('tag_list')({},{'all_fields' : True})
@@ -39,6 +42,8 @@ def tags_merge_list_0(limit=None):
 
 	return merge_list
 
+	
+
 def tags_merge_list_1(limit = None):
 	tags = list_tags()
 	T = len(tags)
@@ -47,7 +52,7 @@ def tags_merge_list_1(limit = None):
 	if limit == None:
 		limit = 1000 #MAX_LIMIT
 	for t in range(0,T-1):
-	#check if there are numbers
+		#check if there are numbers
 		stri = tags[t]['name'] 
 		if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []) and (len(stri) > 3):
 			for s in range(t,T-1):
@@ -93,6 +98,13 @@ def tags_merge_list_2(limit = None):
 		
 	return merge_list
 
+def has_suggestions():
+	suggestions = db.TagMergeSuggestion.all();
+	if suggestions != []:
+		return True
+	else:
+		return False
+
 class TagmanagerPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
 
@@ -112,6 +124,8 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
 
         map.connect('/tagmanager', 'tagmanager', controller=tagmanager, action='index')
         map.connect('/tagmanager/edit', controller=tagmanager, action='edit')
+        map.connect('/tagmanager/index_process_suggestions', controller=tagmanager, action='index_process_suggestions')
+        map.connect('/tagmanager/save_merge_suggestions', controller=tagmanager, action='save_merge_suggestions')
         map.connect('/tagmanager/merge_0', controller=tagmanager, action='merge_0')
         map.connect('/tagmanager/merge_1', controller=tagmanager, action='merge_1')
         map.connect('/tagmanager/merge_2', controller=tagmanager, action='merge_2')
@@ -132,4 +146,4 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('fanstatic', 'tagmanager')
 
     def get_helpers(self):
-	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list_0': tags_merge_list_0, 'tagmanager_tags_merge_list_1': tags_merge_list_1, 'tagmanager_tags_merge_list_2': tags_merge_list_2, 'tagmanager_tags_stats': tags_stats, 'tagmanager_tag_count':tag_count}
+	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list_0': tags_merge_list_0, 'tagmanager_tags_merge_list_1': tags_merge_list_1, 'tagmanager_tags_merge_list_2': tags_merge_list_2, 'tagmanager_tags_stats': tags_stats, 'tagmanager_tag_count':tag_count, 'tagmanager_has_suggestions':has_suggestions}
