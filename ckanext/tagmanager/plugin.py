@@ -4,7 +4,7 @@ import Levenshtein
 from unidecode import unidecode
 import db
 import ckan.model as model
-
+import ckan.model.meta as meta
 
 def list_tags():
     return plugins.toolkit.get_action('tag_list')({},{'all_fields' : True})
@@ -12,18 +12,25 @@ def list_tags():
 def tag_show(id):
     return plugins.toolkit.get_action('tag_show')({},{'id' : id, 'include_datasets': True})
 
+def get_name(id):
+    return plugins.toolkit.get_action('tag_show')({},{'id' : id, 'include_datasets': False})['display_name']
+
 def tags_stats():
-    tags = list_tags()
-    total = len(tags)
+	total_tags = len(model.Tag.all().all())
+
+	total_taggings = len(meta.Session.query(model.PackageTag).all())
+
+	return {'tags': total_tags, 'taggings': total_taggings}
     #tags_count = []
     #for t in range(0,len(tags)):
 	#print tags[t]
 	#tags_count[t] = plugins.toolkit.get_action('tag_show')({},{'id' : tags[t]['id']})
 
-    return total;
-
 def tag_count(id):
     return plugins.toolkit.get_action('tag_show')({},{'id' : id, 'include_datasets': True})
+
+def get_suggestions(suggestion_type=0, limit=None):
+	return db.TagMergeSuggestion.by_type(suggestion_type, limit)
 
 def tags_merge_list_0(limit=None):
 	tags = list_tags()
@@ -98,12 +105,13 @@ def tags_merge_list_2(limit = None):
 		
 	return merge_list
 
-def has_suggestions():
-	suggestions = db.TagMergeSuggestion.all();
-	if suggestions != []:
-		return True
-	else:
-		return False
+def has_suggestions(suggestion_type='all'):
+	if suggestion_type == 'all':
+		suggestions = db.TagMergeSuggestion.all();
+	else: 
+		suggestions = db.TagMergeSuggestion.by_type(suggestion_type);
+
+	return len(suggestions)
 
 class TagmanagerPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -133,6 +141,7 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         map.connect('/tagmanager', controller=tagmanager, action='index')
         map.connect('/tagmanager/merge_confirm', controller=tagmanager, action='merge_confirm')
         map.connect('/tagmanager/merge', controller=tagmanager, action='merge')
+        map.connect('/tagmanager/merge_do', controller=tagmanager, action='merge_do')
         map.connect('/tagmanager/delete_confirm', controller=tagmanager, action='delete_confirm')
         map.connect('/tagmanager/delete', controller=tagmanager, action='delete')
 	return map
@@ -146,4 +155,4 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('fanstatic', 'tagmanager')
 
     def get_helpers(self):
-	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list_0': tags_merge_list_0, 'tagmanager_tags_merge_list_1': tags_merge_list_1, 'tagmanager_tags_merge_list_2': tags_merge_list_2, 'tagmanager_tags_stats': tags_stats, 'tagmanager_tag_count':tag_count, 'tagmanager_has_suggestions':has_suggestions}
+	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list_0': tags_merge_list_0, 'tagmanager_tags_merge_list_1': tags_merge_list_1, 'tagmanager_tags_merge_list_2': tags_merge_list_2, 'tagmanager_tags_stats': tags_stats, 'tagmanager_tag_count':tag_count, 'tagmanager_has_suggestions':has_suggestions, 'tagmanager_get_suggestions': get_suggestions, 'tagmanager_get_name':get_name}

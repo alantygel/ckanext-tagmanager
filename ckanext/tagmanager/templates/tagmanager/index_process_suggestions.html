@@ -14,11 +14,9 @@
 	{% if h.check_access('group_create') %} <!-- TODO Tag create access! -->
 	<p><b><em> Welcome to the CKAN Tag Manager Plugin.</em></b> <br><br>Here you can see statistics about your tags, and use tools for enhancing their quality. The Strong Merge Suggestions will point you all tags different by capital letters or special characters. The Moderate Merge Suggestions will show tags that differ by one or two edits. The Synonyms Suggestions searches for word with the same meaning. Finally, you can also manually merge tags. </p>	  	  
 	
-
 		{% block calculate_suggestions %}
 			{% snippet "tagmanager/snippets/process_suggestions.html" %}
 		{% endblock %}
-
 
 	{% else %}
 		{% block tags_list %}

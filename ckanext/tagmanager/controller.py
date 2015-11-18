@@ -47,21 +47,54 @@ class TagmanagerController(BaseController):
 		p.toolkit.get_action('tag_delete')({},{'id': request.POST['tag']})
 		return render('tagmanager/index.html')	
 
-	def merge(self):
+#	def merge(self):
+#		"assign all elements tagged with tag2 with tag1; delete tag2"
+
+#		tag2_datasets = p.toolkit.get_action('tag_show')({},{'id' : request.POST['tag2'], 'include_datasets': True})
+
+#		for ds in tag2_datasets['packages']:
+#			dataset = p.toolkit.get_action('package_show')({},{'id': ds['id'] })
+#			dataset['tags'].append(p.toolkit.get_action('tag_show')({},{'id':request.POST['tag1']}))
+#			p.toolkit.get_action('package_update')({},dataset)
+#		   
+#		p.toolkit.get_action('tag_delete')({},{'id': request.POST['tag2']})
+#	
+#		#p.toolkit.redirect_to(controller='tagmanager', action='index')
+
+#		return render('tagmanager/index.html')
+
+	def merge_do(self):
 		"assign all elements tagged with tag2 with tag1; delete tag2"
 
-		tag2_datasets = p.toolkit.get_action('tag_show')({},{'id' : request.POST['tag2'], 'include_datasets': True})
+		merges = request.POST.getall('merge')
+		for m in merges:
+			self.merge(m,request.POST["select_" + m])
 
-		for ds in tag2_datasets['packages']:
+
+	def merge(self, merge_id, tag_maintain):
+		"assign all elements tagged with tag2 with tag1; delete tag2"
+		
+		merge_object = db.TagMergeSuggestion.by_id(merge_id)
+
+		if merge_object.tag_id_1 == tag_maintain:
+			tag_delete = merge_object.tag_id_2
+		else:
+			tag_delete = merge_object.tag_id_1
+
+		tag_delete_datasets = p.toolkit.get_action('tag_show')({},{'id' : tag_delete, 'include_datasets': True})
+
+		for ds in tag_delete_datasets['packages']:
 			dataset = p.toolkit.get_action('package_show')({},{'id': ds['id'] })
-			dataset['tags'].append(p.toolkit.get_action('tag_show')({},{'id':request.POST['tag1']}))
+			dataset['tags'].append(p.toolkit.get_action('tag_show')({},{'id':tag_maintain}))
 			p.toolkit.get_action('package_update')({},dataset)
 		   
-		p.toolkit.get_action('tag_delete')({},{'id': request.POST['tag2']})
-	
-		#p.toolkit.redirect_to(controller='tagmanager', action='index')
+		merge_objects = db.TagMergeSuggestion.by_tag_id(tag_delete)
+		for m in merge_objects:
+			m.delete()
+			m.commit()
 
-		return render('tagmanager/index.html')
+		p.toolkit.get_action('tag_delete')({},{'id': tag_delete})
+		return 
 
 	def save_merge_suggestions(self,suggestion_type='all'):
 

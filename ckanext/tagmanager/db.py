@@ -56,9 +56,7 @@ class TagMergeSuggestion(domain_object.DomainObject):
 		query = meta.Session.query(TagMergeSuggestion).\
 		filter(TagMergeSuggestion.id == id)
 
-		query = query.autoflush(autoflush)
-		tag_merge_suggestion = query.first()
-		return tag_merge_suggestion
+		return query.autoflush(autoflush).first()
 
 	@classmethod
 	def by_tag_id(cls, tag_id, autoflush=True):
@@ -79,7 +77,7 @@ class TagMergeSuggestion(domain_object.DomainObject):
 		return tag_merge_suggestions
 
 	@classmethod
-	def by_type(cls, suggestion_type, autoflush=True):
+	def by_type(cls, suggestion_type, limit=None, autoflush=True):
 		'''Return the suggestion for a given type. Type options are: 0 (difference of capitals or special characters), 1 (levensthein distance smaller than 3) and 2 (synonyms).
 
 		:param suggestion_type: suggestion_type (values 0 to 2)
@@ -89,8 +87,14 @@ class TagMergeSuggestion(domain_object.DomainObject):
 		:rtype: ckan.model.tag_merge_suggestion.TagMergeSuggestion
 
 		'''
-		query = meta.Session.query(TagMergeSuggestion).\
-		filter(TagMergeSuggestion.suggestion_type == suggestion_type)
+
+		if limit:
+			query = meta.Session.query(TagMergeSuggestion).\
+			filter(TagMergeSuggestion.suggestion_type == str(suggestion_type)).\
+			limit(limit)
+		else:
+			query = meta.Session.query(TagMergeSuggestion).\
+			filter(TagMergeSuggestion.suggestion_type == str(suggestion_type))
 
 		query = query.autoflush(autoflush)
 		tag_merge_suggestions = query.all()
@@ -116,8 +120,8 @@ class TagMergeSuggestion(domain_object.DomainObject):
 
 
 meta.mapper(TagMergeSuggestion, tag_merge_suggestions_table, properties={
-	'tag_1': relation(_tag.Tag, foreign_keys=[tag_id_1]),
-	'tag_2': relation(_tag.Tag, foreign_keys=[tag_id_2])
+	'tag_1': relation(_tag.Tag, foreign_keys=[tag_id_1], cascade='all, delete, delete-orphan',single_parent=True),
+	'tag_2': relation(_tag.Tag, foreign_keys=[tag_id_2], cascade='all, delete, delete-orphan',single_parent=True)
 	}
 	)
 #TODO: This code is deleting only the value of tag_id - should delete the whole row
