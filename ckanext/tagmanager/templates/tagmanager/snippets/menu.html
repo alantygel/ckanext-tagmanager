@@ -6,7 +6,7 @@
   <div class="module-content">
     <p>
 		<ul style="list-style:none">
-			<li style="margin-bottom:10px">{% link_for _('Edit/Remove'), controller='ckanext.tagmanager.controller:TagmanagerController', action='edit', class_='read-more' %}</li>
+			<li style="margin-bottom:10px">{% link_for _('Remove Tags'), controller='ckanext.tagmanager.controller:TagmanagerController', action='edit', class_='read-more' %}</li>
 			<li style="margin-bottom:10px">{% link_for _('Strong Merge Suggestions (%(s)i)')|format(s=h.tagmanager_has_suggestions(0)), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_0', class_='read-more' %}</li>
 			<li style="margin-bottom:10px">{% link_for _('Moderate Merge Suggestions (%(s)i)')|format(s=h.tagmanager_has_suggestions(1)), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_1', class_='read-more' %}</li>
 			<li style="margin-bottom:10px">{% link_for _('Synonyms Suggestions (%(s)i)')|format(s=h.tagmanager_has_suggestions(2)), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_2', class_='read-more' %}</li>

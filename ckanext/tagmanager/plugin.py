@@ -32,78 +32,78 @@ def tag_count(id):
 def get_suggestions(suggestion_type=0, limit=None):
 	return db.TagMergeSuggestion.by_type(suggestion_type, limit)
 
-def tags_merge_list_0(limit=None):
-	tags = list_tags()
-	T = len(tags)
-	merge_list = []
-	count = 0
-	if limit == None:
-		limit = 1000 #MAX_LIMIT
-	for t in range(0,T-1):
-		for s in range(t+1, T-1):
-			if unidecode(tags[s]['name'].lower()) == unidecode(tags[t]['name'].lower()):
-				merge_list.append([tags[s],tags[t]])
-				count += 1
-				if count > limit:
-					return merge_list
+#def tags_merge_list_0(limit=None):
+#	tags = list_tags()
+#	T = len(tags)
+#	merge_list = []
+#	count = 0
+#	if limit == None:
+#		limit = 1000 #MAX_LIMIT
+#	for t in range(0,T-1):
+#		for s in range(t+1, T-1):
+#			if unidecode(tags[s]['name'].lower()) == unidecode(tags[t]['name'].lower()):
+#				merge_list.append([tags[s],tags[t]])
+#				count += 1
+#				if count > limit:
+#					return merge_list
 
-	return merge_list
+#	return merge_list
 
 	
 
-def tags_merge_list_1(limit = None):
-	tags = list_tags()
-	T = len(tags)
-	merge_list = []
-	count = 0
-	if limit == None:
-		limit = 1000 #MAX_LIMIT
-	for t in range(0,T-1):
-		#check if there are numbers
-		stri = tags[t]['name'] 
-		if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []) and (len(stri) > 3):
-			for s in range(t,T-1):
-				strj = tags[s]['name']
-				if (len(strj) > 3) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
-					if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
-						d = Levenshtein.distance(tags[t]['name'],tags[s]['name'])
-						if d < 3:
-							merge_list.append([tags[s],tags[t]])
-							count += 1
-							if count > limit:
-			   					return merge_list
-		
-	return merge_list
+#def tags_merge_list_1(limit = None):
+#	tags = list_tags()
+#	T = len(tags)
+#	merge_list = []
+#	count = 0
+#	if limit == None:
+#		limit = 1000 #MAX_LIMIT
+#	for t in range(0,T-1):
+#		#check if there are numbers
+#		stri = tags[t]['name'] 
+#		if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []) and (len(stri) > 3):
+#			for s in range(t,T-1):
+#				strj = tags[s]['name']
+#				if (len(strj) > 3) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
+#					if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
+#						d = Levenshtein.distance(tags[t]['name'],tags[s]['name'])
+#						if d < 3:
+#							merge_list.append([tags[s],tags[t]])
+#							count += 1
+#							if count > limit:
+#			   					return merge_list
+#		
+#	return merge_list
 
-def tags_merge_list_2(limit = None):
-	from nltk.corpus import wordnet as wn
-	tags = list_tags()
-	T = len(tags)
-	merge_list = []
-	count = 0
-	if limit == None:
-		limit = 1000 #MAX_LIMIT
-	for t in range(0,T-1):
-	#check if there are numbers
-		stri = tags[t]['name'] 
-		if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []) and (len(stri) > 3):
-			syn1=wn.synsets(stri)
-			if syn1 != []:
-				for s in range(t,T-1):
-					strj = tags[s]['name']
-					if (len(strj) > 3) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
-						syn2=wn.synsets(strj)
-						if syn2 != []:
-							if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
-								if Levenshtein.distance(tags[t]['name'],tags[s]['name']) > 3:
-									b = max(syn2[i].wup_similarity(syn1[0]) for i in range(len(syn2)))
-									if b >= 1:
-										merge_list.append([tags[s],tags[t]])
-										count += 1
-										if count > limit:
-						   					return merge_list
-		
-	return merge_list
+#def tags_merge_list_2(limit = None):
+#	from nltk.corpus import wordnet as wn
+#	tags = list_tags()
+#	T = len(tags)
+#	merge_list = []
+#	count = 0
+#	if limit == None:
+#		limit = 1000 #MAX_LIMIT
+#	for t in range(0,T-1):
+#	#check if there are numbers
+#		stri = tags[t]['name'] 
+#		if ([int(stri[i]) for i in range(0,len(stri)) if stri[i].isdigit()] == []) and (len(stri) > 3):
+#			syn1=wn.synsets(stri)
+#			if syn1 != []:
+#				for s in range(t,T-1):
+#					strj = tags[s]['name']
+#					if (len(strj) > 3) and ([int(strj[i]) for i in range(0,len(strj)) if strj[i].isdigit()] == []):
+#						syn2=wn.synsets(strj)
+#						if syn2 != []:
+#							if unidecode(tags[s]['name'].lower()) != unidecode(tags[t]['name'].lower()):
+#								if Levenshtein.distance(tags[t]['name'],tags[s]['name']) > 3:
+#									b = max(syn2[i].wup_similarity(syn1[0]) for i in range(len(syn2)))
+#									if b >= 1:
+#										merge_list.append([tags[s],tags[t]])
+#										count += 1
+#										if count > limit:
+#						   					return merge_list
+#		
+#	return merge_list
 
 def has_suggestions(suggestion_type='all'):
 	if suggestion_type == 'all':
@@ -155,4 +155,4 @@ class TagmanagerPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('fanstatic', 'tagmanager')
 
     def get_helpers(self):
-	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_merge_list_0': tags_merge_list_0, 'tagmanager_tags_merge_list_1': tags_merge_list_1, 'tagmanager_tags_merge_list_2': tags_merge_list_2, 'tagmanager_tags_stats': tags_stats, 'tagmanager_tag_count':tag_count, 'tagmanager_has_suggestions':has_suggestions, 'tagmanager_get_suggestions': get_suggestions, 'tagmanager_get_name':get_name}
+	return {'tagmanager_list_tags':list_tags,'tagmanager_tag_show':tag_show, 'tagmanager_tags_stats': tags_stats, 'tagmanager_tag_count':tag_count, 'tagmanager_has_suggestions':has_suggestions, 'tagmanager_get_suggestions': get_suggestions, 'tagmanager_get_name':get_name}

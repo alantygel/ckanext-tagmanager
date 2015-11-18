@@ -26,13 +26,13 @@ class TagmanagerController(BaseController):
 		return render('tagmanager/index_process_suggestions.html')	
 
 	def merge_0(self):
-		return render('tagmanager/merge_0.html')	
+		return render('tagmanager/index_merge_0.html')	
 
 	def merge_1(self):
-		return render('tagmanager/merge_1.html')	
+		return render('tagmanager/index_merge_1.html')	
    
 	def merge_2(self):
-		return render('tagmanager/merge_2.html')	
+		return render('tagmanager/index_merge_2.html')	
 
 	def merge_form(self):
 		return render('tagmanager/merge_form.html')	
@@ -47,31 +47,32 @@ class TagmanagerController(BaseController):
 		p.toolkit.get_action('tag_delete')({},{'id': request.POST['tag']})
 		return render('tagmanager/index.html')	
 
-#	def merge(self):
-#		"assign all elements tagged with tag2 with tag1; delete tag2"
+	def merge(self):
+		"assign all elements tagged with tag2 with tag1; delete tag2"
 
-#		tag2_datasets = p.toolkit.get_action('tag_show')({},{'id' : request.POST['tag2'], 'include_datasets': True})
+		tag2_datasets = p.toolkit.get_action('tag_show')({},{'id' : request.POST['tag2'], 'include_datasets': True})
 
-#		for ds in tag2_datasets['packages']:
-#			dataset = p.toolkit.get_action('package_show')({},{'id': ds['id'] })
-#			dataset['tags'].append(p.toolkit.get_action('tag_show')({},{'id':request.POST['tag1']}))
-#			p.toolkit.get_action('package_update')({},dataset)
-#		   
-#		p.toolkit.get_action('tag_delete')({},{'id': request.POST['tag2']})
-#	
-#		#p.toolkit.redirect_to(controller='tagmanager', action='index')
+		for ds in tag2_datasets['packages']:
+			dataset = p.toolkit.get_action('package_show')({},{'id': ds['id'] })
+			dataset['tags'].append(p.toolkit.get_action('tag_show')({},{'id':request.POST['tag1']}))
+			p.toolkit.get_action('package_update')({},dataset)
+		   
+		p.toolkit.get_action('tag_delete')({},{'id': request.POST['tag2']})
+	
+		#p.toolkit.redirect_to(controller='tagmanager', action='index')
 
-#		return render('tagmanager/index.html')
+		return render('tagmanager/index.html')
 
 	def merge_do(self):
 		"assign all elements tagged with tag2 with tag1; delete tag2"
 
 		merges = request.POST.getall('merge')
 		for m in merges:
-			self.merge(m,request.POST["select_" + m])
+			self.merge_from_suggestion(m,request.POST["select_" + m])
 
+		return render('tagmanager/index.html')
 
-	def merge(self, merge_id, tag_maintain):
+	def merge_from_suggestion(self, merge_id, tag_maintain):
 		"assign all elements tagged with tag2 with tag1; delete tag2"
 		
 		merge_object = db.TagMergeSuggestion.by_id(merge_id)

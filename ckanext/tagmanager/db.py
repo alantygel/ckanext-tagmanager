@@ -14,8 +14,8 @@ import ckan.lib.dictization
 
 __all__ = ['tag_merge_suggestions_table', 'TagMergeSuggestion']
 
-tag_id_1 = Column('tag_id_1', types.UnicodeText, ForeignKey('tag.id'))
-tag_id_2 = Column('tag_id_2', types.UnicodeText, ForeignKey('tag.id'))
+tag_id_1 = Column('tag_id_1', types.UnicodeText, ForeignKey('tag.id',ondelete="CASCADE"))
+tag_id_2 = Column('tag_id_2', types.UnicodeText, ForeignKey('tag.id',ondelete="CASCADE"))
 
 tag_merge_suggestions_table = Table('tag_merge_suggestions', meta.metadata,
 		Column('id', types.UnicodeText, primary_key=True, default=_types.make_uuid),
@@ -120,11 +120,10 @@ class TagMergeSuggestion(domain_object.DomainObject):
 
 
 meta.mapper(TagMergeSuggestion, tag_merge_suggestions_table, properties={
-	'tag_1': relation(_tag.Tag, foreign_keys=[tag_id_1], cascade='all, delete, delete-orphan',single_parent=True),
-	'tag_2': relation(_tag.Tag, foreign_keys=[tag_id_2], cascade='all, delete, delete-orphan',single_parent=True)
+	'tag_1': relation(_tag.Tag, foreign_keys=[tag_id_1]),
+	'tag_2': relation(_tag.Tag, foreign_keys=[tag_id_2])
 	}
 	)
-#TODO: This code is deleting only the value of tag_id - should delete the whole row
 
 
 #meta.mapper(TagSemanticTag, tag_semantictag_table, properties={
