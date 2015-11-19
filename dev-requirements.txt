@@ -1,0 +1,3 @@
+python-Levenshtein == 0.12.0
+unidecode == 0.04.18
+nltk == 3.1

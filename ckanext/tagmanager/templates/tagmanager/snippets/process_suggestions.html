@@ -1,8 +1,9 @@
-<h3> {{ _('Process Suggestions')}} </h3>
+<h3> {{ _('Merge tags')}} </h3>
 
-<p>You don't have any merge suggestions. Choose an option for calculting it bellow. If you have many tags, it can take some time.</p>
+<p>Choose an option for calculting merging suggestions for your tags bellow. If you have many tags, this can take some minutes.</p>
 
-<ul>
+<ul style="list-style:none">
+
 	<li>
 		<form action='/tagmanager/save_merge_suggestions' method='POST'>
 			<input type='hidden' name='method' value='0'>
@@ -21,6 +22,7 @@
 			<input type='submit' value='Find synonym tags (English only)'>
 		</form>
 	</li>
+
 	<li>
 		<form action='/tagmanager/save_merge_suggestions' method='POST'>
 			<input type='hidden' name='method' value='all'>
@@ -28,3 +30,16 @@
 		</form>
 	</li>
 </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+

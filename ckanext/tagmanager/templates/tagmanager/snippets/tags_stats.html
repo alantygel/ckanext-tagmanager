@@ -1,6 +1,6 @@
-<h5>{{ _('Tags Statistics') }}</h5>
+<h3>{{ _('Tags Statistics') }}</h3>
 
 {% set stats = h.tagmanager_tags_stats() %}
-<p> Total of tags: {{stats['tags']}} </p>
+<p>Number of tags: {{stats['tags']}} </p>
 <p>Tag usage: {{ stats['taggings'] }}</p>
 

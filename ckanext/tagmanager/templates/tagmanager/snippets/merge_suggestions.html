@@ -1,11 +1,22 @@
+<script language="JavaScript">
+function toggle(source) {
+  checkboxes = document.getElementsByName('merge');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+</script>
+
+
 <p>Check the pairs you want to merge, and select which tag you want to maintain. The other one will be deleted.</p>
 <form action='/tagmanager/merge_do' method='POST'>
-<ul style="list-style:none">
-{% set ml = h.tagmanager_get_suggestions(suggestion_type, limit) %}
+	<input type="checkbox" onClick="toggle(this)" />{{ _('Select all') }}<br/>
+	<ul style="list-style:none">
+	{% set ml = h.tagmanager_get_suggestions(suggestion_type, limit) %}
 
-{% for pair in ml %}
+	{% for pair in ml %}
 		
-        <li><input type='checkbox' name='merge' value='{{ pair.id }}'>
+        <li><input type="checkbox" name='merge' value='{{ pair.id }}'>
 
 		<span class='tag'> {{ h.tagmanager_get_name(pair.tag_id_1) }}</span> 
 		<input type='radio' name='select_{{ pair.id }}' value='{{pair.tag_id_1}}' CHECKED>
