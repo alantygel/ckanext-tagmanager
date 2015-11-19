@@ -1,17 +1,15 @@
 ckanext-tagmanager
 =============
 
-Tagmanager offers a graphical interface for cleaning tags in CKAN open data portals. The main feature is the detection of similar tags, and the possibility to merge them. This is usefull for portals with many contributors, where tags are not always kept consistent.
+Tagmanager offers a graphical interface for cleaning tags in CKAN open data portals. The main features are the detection of similar tags, and the possibility to merge them. This is useful for portals with many contributors, where tags are not always kept consistent.
 
-We offer three modes of tags merging suggestions:
+We offer three modes for detecting similar tags:
 
-- Strong: show tags that differ only by capitals special characters;
-- Medium: show tags that have a Levenshtein edit distance smaller than one;
-- Synonym: show tags that are synomyms (only for English)
+- Strong similarity: detect tags that differ only by capitals special characters;
+- Medium similarity: detect tags that have a Levenshtein edit distance smaller than three;
+- Synonyms: show tags that are synonyms (only for English)
 
-This extensions is intended to fill the tag management gap of CKAN. CKAN core offers only a listing of tags, and edition through the specific datasets.
-
-In the future, we plan to offer the creation of relationships between tags, and connection to a central semantic tag server.
+This extensions is intended to fill the tag management gap of CKAN. In the future, we plan to offer the creation of relationships between tags, and a tag recommendation structure.
 
 Requirements
 ------------
