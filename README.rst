@@ -1,15 +1,15 @@
 ckanext-tagmanager
 =============
 
-Tagmanager offers a graphical interface for removing and merging tags. This is usefull for big open data portals with many contributors, where tags are not always kept consistent.
+Tagmanager offers a graphical interface for cleaning tags in CKAN open data portals. The main feature is the detection of similar tags, and the possibility to merge them. This is usefull for portals with many contributors, where tags are not always kept consistent.
 
 We offer three modes of tags merging suggestions:
 
 - Strong: show tags that differ only by capitals special characters;
 - Medium: show tags that have a Levenshtein edit distance smaller than one;
-- Synonym: show tags that are synomyns (only for English)
+- Synonym: show tags that are synomyms (only for English)
 
-This extensions is intended to fill the tag managament gap of CKAN. CKAN core offers only a listing of tags, and edition through the specific datasets.
+This extensions is intended to fill the tag management gap of CKAN. CKAN core offers only a listing of tags, and edition through the specific datasets.
 
 In the future, we plan to offer the creation of relationships between tags, and connection to a central semantic tag server.
 
@@ -19,10 +19,21 @@ Requirements
 Before installing tagmanager, make sure you have:
 
 * CKAN 2.5+
-* Levenshtein python library: pip install python-Levenshtein
-* Unidecode python library: pip install unidecode
-* NLTK library: pip install nltk
-* NLTK data: python -m nltk.downloader all
+* Levenshtein python library 
+
+	pip install python-Levenshtein
+
+* Unidecode python library: 
+	
+	pip install unidecode
+
+* NLTK library: 
+
+	pip install nltk
+
+* NLTK data: 
+
+	python -m nltk.downloader all
 
 
 Installation
@@ -61,3 +72,10 @@ Use
 ---------------------
 
 Navigate to yoursite/tagmanager
+
+Acknowledgements
+---------------------
+
+This work was driven in the context of the research STODaP_ project, developed at the Federal University of Rio de Janeiro (Brazil) and the University of Bonn (Germany)
+
+.. _STODaP: http://stodap.org/
