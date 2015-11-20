@@ -1,10 +1,13 @@
 ckanext-tagmanager
 ==================
 
-Tagmanager offers an tools and interfaces for cleaning tags in CKAN open data portals. 
+Tagmanager offers tools and interfaces for cleaning tags in CKAN open data portals. 
+
+.. image:: http://stodap.org/tags/images/tag_manager_screenshot.png
+
 
 What can you do with the tagmanager plugin?
-----------------
+-------------------------------------------
 
 The main features are the detection of similar tags, and the possibility to merge them. This is useful for portals with many contributors, where tags are not always kept consistent.
 
