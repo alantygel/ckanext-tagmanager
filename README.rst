@@ -61,11 +61,15 @@ To install ckanext-tagmanager:
 
      pip install ckanext-tagmanager
 
-3. Add ``tagmanager`` to the ``ckan.plugins`` setting in your CKAN
+3. Run the database migration::
+
+	paster tagmanager migrate -c /etc/ckan/default/production.ini 
+
+4. Add ``tagmanager`` to the ``ckan.plugins`` setting in your CKAN
    config file (by default the config file is located at
    ``/etc/ckan/default/production.ini``).
 
-4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
 
      sudo service apache2 reload
 
