@@ -1,7 +1,12 @@
 ckanext-tagmanager
-=============
+==================
 
-Tagmanager offers a graphical interface for cleaning tags in CKAN open data portals. The main features are the detection of similar tags, and the possibility to merge them. This is useful for portals with many contributors, where tags are not always kept consistent.
+Tagmanager offers an tools and interfaces for cleaning tags in CKAN open data portals. 
+
+What can you do with the tagmanager plugin?
+----------------
+
+The main features are the detection of similar tags, and the possibility to merge them. This is useful for portals with many contributors, where tags are not always kept consistent.
 
 We offer three modes for detecting similar tags:
 
@@ -9,33 +14,39 @@ We offer three modes for detecting similar tags:
 - Medium similarity: detect tags that have a Levenshtein edit distance smaller than three;
 - Synonyms: show tags that are synonyms (only for English)
 
+Why a tagmanager plugin?
+------------------------
+
 This extensions is intended to fill the tag management gap of CKAN. In the future, we plan to offer the creation of relationships between tags, and a tag recommendation structure.
+
 
 Requirements
 ------------
 
+
 Before installing tagmanager, make sure you have:
 
 * CKAN 2.5+
-* Levenshtein python library 
+* Levenshtein python library:: 
 
 	pip install python-Levenshtein
 
-* Unidecode python library: 
+* Unidecode python library:: 
 	
 	pip install unidecode
 
-* NLTK library: 
+* NLTK library:: 
 
 	pip install nltk
 
-* NLTK data: 
+* NLTK data:: 
 
-	python -m nltk.downloader all
+     python -m nltk.downloader all
 
 
 Installation
 ------------
+
 
 To install ckanext-tagmanager:
 
