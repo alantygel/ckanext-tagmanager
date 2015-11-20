@@ -82,6 +82,7 @@ do::
     git clone https://github.com/alantygel/ckanext-tagmanager.git
     cd ckanext-tagmanager
     python setup.py develop
+	paster tagmanager migrate -c /etc/ckan/default/development.ini 
     pip install -r dev-requirements.txt
 
 Use
