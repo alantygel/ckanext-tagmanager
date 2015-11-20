@@ -6,7 +6,11 @@ function toggle(source) {
   }
 }
 </script>
-
+<style>
+input[type="radio"], input[type="checkbox"] {
+    top: 0px;
+}
+</style>
 
 <p>Check the pairs you want to merge, and select which tag you want to maintain. The other one will be deleted.</p>
 <form action='/tagmanager/merge_do' method='POST'>
