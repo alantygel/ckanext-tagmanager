@@ -4,6 +4,8 @@
     {{ _('Tag Management') }}
   </h2>
   <div class="module-content">
+    {% if h.check_access('group_create') %} <!-- TODO Tag create access! -->
+
     <p>
 		<ul style="list-style:none">
 			<li style="margin-bottom:10px">{% link_for _('Edit/Remove'), controller='ckanext.tagmanager.controller:TagmanagerController', action='edit', class_='read-more' %}</li>
@@ -14,4 +16,5 @@
 		</ul>
     </p>
   </div>
+  {% endif %}
 </div>
