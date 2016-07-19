@@ -12,26 +12,11 @@
 	
 	<h1 class="hide-heading">{{ _('Tags') }}</h1>
 	{% if h.check_access('group_create') %} <!-- TODO Tag create access! -->
-	<p><b><em> {{ _('Welcome to the CKAN Tag Manager Plugin.') }}</em></b> <br><br>  	  
+	<p><b><em> Welcome to the CKAN Tag Manager Plugin.</em></b> <br><br>Here you can see statistics about your tags, and use tools for enhancing their quality. The Strong Merge Suggestions will point you all tags different by capital letters or special characters. The Moderate Merge Suggestions will show tags that differ by one or two edits. The Synonyms Suggestions searches for word with the same meaning. Finally, you can also manually merge tags. </p>	  	  
 	
-		{% block tags_stats %}
-			{% snippet "tagmanager/snippets/tags_stats.html" %}
-		{% endblock %}
-
-		<hr>
-
-		{% if h.tagmanager_has_suggestions() != 0 %}
-	
-			{% block merge_preview %}
-				{% snippet "tagmanager/snippets/merge_preview.html" %}
-			{% endblock %}
-
-		{% endif %}	
-
 		{% block calculate_suggestions %}
 			{% snippet "tagmanager/snippets/process_suggestions.html" %}
 		{% endblock %}
-
 
 	{% else %}
 		{% block tags_list %}

@@ -12,18 +12,24 @@
 	
 	<h1 class="hide-heading">{{ _('Tags') }}</h1>
 	{% if h.check_access('group_create') %} <!-- TODO Tag create access! -->
-	  	  
-		{% block tag_merge_suggestion %}
-	  		<section class="module">
-	  			<h2>{{ _('Merge Suggestions')}}</h2>
-				<div class="module-content">
-			{% block merge_tags_0 %}
-				{% set limit = 30 %}
-				{% include "tagmanager/snippets/merge_tags_0.html" %}
-			{% endblock %}	
-	   			</div>
-	 		</section>
-	  	{% endblock %}
+
+	  	{% if h.tagmanager_has_suggestions(2) != 0 %}  
+
+			{% block tag_merge_suggestion %}
+		  		<section class="module">
+		  			<h2>{{ _('Merge Suggestions')}}</h2>
+					<div class="module-content">
+				{% block merge_tags_2 %}
+					{% set suggestion_type = 2 %}
+					{% include "tagmanager/snippets/merge_suggestions.html" %}
+				{% endblock %}	
+		   			</div>
+		 		</section>
+		  	{% endblock %}
+
+		{% else %}
+			<p> You don't have any synonym suggestions now. Maybe you want to {% link_for _('Process suggestions'), controller='ckanext.tagmanager.controller:TagmanagerController', action='index_process_suggestions', class_='read-more' %}
+		{% endif %}
 
 	{% else %}
 		{% block tags_list %}

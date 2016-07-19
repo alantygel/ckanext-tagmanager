@@ -1,0 +1,37 @@
+<script language="JavaScript">
+function toggle(source) {
+  checkboxes = document.getElementsByName('merge');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+</script>
+<style>
+input[type="radio"], input[type="checkbox"] {
+    top: 0px;
+}
+</style>
+
+<p>Check the pairs you want to merge, and select which tag you want to maintain. The other one will be deleted.</p>
+<form action='/tagmanager/merge_do' method='POST'>
+	<input type="checkbox" onClick="toggle(this)" />{{ _('Select all') }}<br/>
+	<ul style="list-style:none">
+	{% set ml = h.tagmanager_get_suggestions(suggestion_type, limit) %}
+
+	{% for pair in ml %}
+		
+        <li><input type="checkbox" name='merge' value='{{ pair.id }}'>
+
+		<span class='tag'> {{ h.tagmanager_get_name(pair.tag_id_1) }}</span> 
+		<input type='radio' name='select_{{ pair.id }}' value='{{pair.tag_id_1}}' CHECKED>
+
+		and 
+		<span class='tag'>{{ h.tagmanager_get_name(pair.tag_id_2) }}</span>
+		<input type='radio' name='select_{{ pair.id }}' value='{{pair.tag_id_2}}'>
+
+        {# h.link_to(_('Merge'), h.url_for(controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_confirm', tag1=pair.tag_id_1, tag2=pair.tag_id_1), class_='button') #}
+        </li>
+{% endfor %}
+<input type='submit' value='Merge'>
+</ul>
+</form>

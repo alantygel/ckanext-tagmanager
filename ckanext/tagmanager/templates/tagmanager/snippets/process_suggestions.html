@@ -1,0 +1,45 @@
+<h3> {{ _('Merge tags')}} </h3>
+
+<p>Choose an option for calculting merging suggestions for your tags bellow. If you have many tags, this can take some minutes.</p>
+
+<ul style="list-style:none">
+
+	<li>
+		<form action='/tagmanager/save_merge_suggestions' method='POST'>
+			<input type='hidden' name='method' value='0'>
+			<input type='submit' value='Find syntactically very similar tags'>
+		</form>
+	</li>
+	<li>
+		<form action='/tagmanager/save_merge_suggestions' method='POST'>
+			<input type='hidden' name='method' value='1'>
+			<input type='submit' value='Find syntactically similar tags'>
+		</form>
+	</li>
+	<li>
+		<form action='/tagmanager/save_merge_suggestions' method='POST'>
+			<input type='hidden' name='method' value='2'>
+			<input type='submit' value='Find synonym tags (English only)'>
+		</form>
+	</li>
+
+	<li>
+		<form action='/tagmanager/save_merge_suggestions' method='POST'>
+			<input type='hidden' name='method' value='all'>
+			<input type='submit' value='Find all!'>
+		</form>
+	</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+

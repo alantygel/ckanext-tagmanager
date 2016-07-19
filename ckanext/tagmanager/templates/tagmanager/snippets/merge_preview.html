@@ -1,24 +1,35 @@
 <h3>{{ _('You have suggestions for merging:') }}</h3>
 
-<p>We strongly suggest you to merge: </p>
-{% block strongly_suggest %}
-	{% set limit = 5 %}
-	{% include "tagmanager/snippets/merge_tags_0.html" %}
-{% endblock %}
-{% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_0'%}
+{% if h.tagmanager_has_suggestions(0) != 0 %}
+	<p>We strongly suggest you to merge: </p>
+	{% block strongly_suggest %}
+		{% set limit = 5 %}
+		{% set suggestion_type = 0 %}
+		{% include "tagmanager/snippets/merge_suggestions.html" %}
+	{% endblock %}
+	{% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_0'%}
+	<br><br>
 
-<br><br>
+{% endif %}
+{% if h.tagmanager_has_suggestions(1) != 0 %}
 
-<p>You may also want to merge: </p>
-{% block suggest %}
-	{% set limit = 5 %}
-	{% include "tagmanager/snippets/merge_tags_1.html" %}
-{% endblock %}
-{% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_1'%}
+	<p>You may also want to merge: </p>
+	{% block suggest %}
+		{% set limit = 5 %}
+		{% set suggestion_type = 1 %}
+		{% include "tagmanager/snippets/merge_suggestions.html" %}
+	{% endblock %}
+	{% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_1'%}
+	<br><br>
 
-<p>or check for the possible synonyms: </p>
-{% block synonyms %}
-	{% set limit = 5 %}
-	{% include "tagmanager/snippets/merge_tags_2.html" %}
-{% endblock %}
-{% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_2'%}
+{% endif %}
+
+{% if h.tagmanager_has_suggestions(2) != 0 %}
+	<p>You have synonym tags: </p>
+	{% block synonyms %}
+		{% set limit = 5 %}
+		{% set suggestion_type = 2 %}
+		{% include "tagmanager/snippets/merge_suggestions.html" %}
+	{% endblock %}
+	{% link_for _('see more...'), controller='ckanext.tagmanager.controller:TagmanagerController', action='merge_2'%}
+{% endif %}

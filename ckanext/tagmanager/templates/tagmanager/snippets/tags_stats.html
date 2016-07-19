@@ -1,13 +1,6 @@
-<h5>{{ _('Tags Statistics') }}</h5>
+<h3>{{ _('Tags Statistics') }}</h3>
 
-{% set total = h.tagmanager_tags_stats() %}
-<p> Total of tags: {{total}} </p>
-<ul>
-{# set tags = h.tagmanager_list_tags() #}
-{# set total_count = 0 #}
-{# for s in range(tags|count) #}
-    {# set total_count = total_count + h.tagmanager_tag_count(tags[s].id).packages|count #}
-	{# tags[s].name }} {{ h.tagmanager_tag_count(tags[s].id).packages|count #}
-{# endfor #}
-<p>Tag usage: {{ total_count }}</p>
-</ul>
+{% set stats = h.tagmanager_tags_stats() %}
+<p>Number of tags: {{stats['tags']}} </p>
+<p>Tag usage: {{ stats['taggings'] }}</p>
+
